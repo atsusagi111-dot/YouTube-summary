@@ -120,6 +120,8 @@ def main():
     items = search_res.get("items", [])
     if not items:
         print("動画が見つかりませんでした。")
+        if DISCORD_WEBHOOK_URL:
+            send_to_discord(DISCORD_WEBHOOK_URL, "最新動画はありませんでした")
         return
 
     video_id = items[0]["id"]["videoId"]
@@ -128,6 +130,8 @@ def main():
     last_id = load_last_video_id()
     if video_id == last_id:
         print("新着動画なし。")
+        if DISCORD_WEBHOOK_URL:
+            send_to_discord(DISCORD_WEBHOOK_URL, "最新動画はありませんでした")
         return
 
     # 動画詳細取得
